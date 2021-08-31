@@ -1,0 +1,37 @@
+{
+  "id": "2775008",
+  "name": "开发者中心",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10935000",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "6061398",
+      "name": "开发者管理",
+      "font_class": "kaifazheguanli",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "12316654",
+      "name": "授权",
+      "font_class": "shouquan",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "19594643",
+      "name": "钱",
+      "font_class": "money",
+      "unicode": "e693",
+      "unicode_decimal": 59027
+    }
+  ]
+}
