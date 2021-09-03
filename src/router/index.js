@@ -4,6 +4,12 @@ import VueRouter from 'vue-router'
 const Login = () => import( /* webpackChunkName: "login_register_password" */ '../views/Login.vue')
 const Register = () => import( /* webpackChunkName: "login_register_password" */ '../views/Register.vue')
 const Password = () => import( /* webpackChunkName: "login_register_password" */ '../views/Password.vue')
+const Error404 = () => import( /* webpackChunkName: "404" */ '../views/404.vue')
+const Home = () => import( /* webpackChunkName: "home_welcome" */ '../views/Home.vue')
+const AuthorizationList = () => import( /* webpackChunkName: "authorizationlist" */ '../views/authorization/List.vue')
+const Alipay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Alipay.vue')
+const Qqpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Qqpay.vue')
+const Wxpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Wxpay.vue')
 
 Vue.use(VueRouter)
 
@@ -19,6 +25,32 @@ const routes = [{
 }, {
   path: '/password',
   component: Password
+}, {
+  path: '/home',
+  component: Home,
+  redirect: '/authorization/list',
+  children: [{
+    path: '/authorization/list',
+    component: AuthorizationList
+  }]
+}, {
+  name: 'alipay',
+  path: '/pay/alipay',
+  component: Alipay
+}, {
+  name: 'qqpay',
+  path: '/pay/qqpay',
+  component: Qqpay
+}, {
+  name: 'wxpay',
+  path: '/pay/wxpay',
+  component: Wxpay
+}, {
+  path: '/404',
+  component: Error404
+}, {
+  path: '*',
+  redirect: '/404'
 }]
 
 const router = new VueRouter({
@@ -31,7 +63,8 @@ router.beforeEach((to, from, next) => {
   // 定义不需要检测登录的路由
   const noNeedLogin = [
     '/register',
-    '/password'
+    '/password',
+    '/404'
   ]
   //获取token
   const token = window.sessionStorage.getItem('user_token');

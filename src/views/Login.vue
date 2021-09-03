@@ -20,11 +20,11 @@
         <el-form-item>
           <div class="register-password">
             <el-checkbox v-model="remember">记住密码</el-checkbox>
-            <router-link to="/register"><a href="javascript:;">新用户注册</a></router-link>
+            <router-link to="/register"><span>新用户注册</span></router-link>
           </div>
           <div class="btn"><el-button type="primary" @click="login">登录</el-button></div>
           <div class="password">
-            <router-link to="/password"><a href="javascript:;">忘记密码？</a></router-link>
+            <router-link to="/password"><span>忘记密码？</span></router-link>
           </div>
         </el-form-item>
         <el-form-item>

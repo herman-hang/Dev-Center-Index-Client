@@ -10,8 +10,17 @@ Vue.prototype.$http = axios
 axios.defaults.baseURL = window.serverConfig.BASE_API
 //axios请求拦截器，给请求头添加一个Authorization，便于授权验证
 axios.interceptors.request.use(config => {
-  //展现进度条
-  NProgress.start();
+  // 不展现进度条的路由
+  const blank = [
+    'pay/qqpayReturn',
+    'pay/alipayReturn',
+    'pay/wxpayReturn'
+  ];
+  // 和数组中的路由匹配失败则展现
+  if (blank.indexOf(config.url) === -1) {
+    //展现进度条
+    NProgress.start();
+  }
   config.headers.Authorization = window.sessionStorage.getItem('user_token');
   return config;
 })

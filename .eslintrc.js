@@ -19,6 +19,7 @@ module.exports = {
     'space-in-parens': 0,
     'no-trailing-spaces': 0,
     'no-useless-escape': 0,
-    'one-var': 0
+    'one-var': 0,
+    'no-unused-vars': 0
   }
 }
