@@ -12,9 +12,8 @@ axios.defaults.baseURL = window.serverConfig.BASE_API
 axios.interceptors.request.use(config => {
   // 不展现进度条的路由
   const blank = [
-    'pay/qqpayReturn',
-    'pay/alipayReturn',
-    'pay/wxpayReturn'
+    'authorization/authPaySuccess',
+    'authorization/upgradeAuthPaySuccess'
   ];
   // 和数组中的路由匹配失败则展现
   if (blank.indexOf(config.url) === -1) {

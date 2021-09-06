@@ -30,6 +30,12 @@
       </div>
       <div class="tip-text"></div>
     </div>
+    <div class="foot">
+      <div class="inner">
+        <p>手机用户可保存上方二维码到手机中</p>
+        <p>在支付宝扫一扫中选择“相册”即可</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -61,13 +67,10 @@ export default {
      *回调地址
      */
     async alipayReturn() {
-      const { data: res } = await this.$http.get('pay/facepayReturn');
-      console.log(res);
-      if (res.code !== 200) {
-        // this.timer = setTimeout(this.qqpayReturn, 3000);
+      const { data: res } = await this.$http.get(this.buyForm.notify_url);
+      if (res.code !== 201) {
+        this.timer = setTimeout(this.alipayReturn, 2000);
       } else {
-        // 清除定时器
-        clearInterval(this.timer);
         this.$message.success(res.msg);
         this.$router.push('/authorization/list');
       }
@@ -108,6 +111,10 @@ export default {
   mounted() {
     this.qrcode();
     this.alipayReturn();
+    this.$once('hook:beforeDestroy', () => {
+      // 清除定时器
+      clearInterval(this.timer);
+    });
   },
   watch: {
     // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可

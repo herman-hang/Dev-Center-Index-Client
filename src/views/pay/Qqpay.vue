@@ -67,12 +67,10 @@ export default {
      *回调地址
      */
     async qqpayReturn() {
-      const { data: res } = await this.$http.get('pay/qqpayReturn');
+      const { data: res } = await this.$http.get(this.buyForm.notify_url);
       if (res.code !== 201) {
-        this.timer = setTimeout(this.qqpayReturn, 3000);
+        this.timer = setTimeout(this.qqpayReturn, 2000);
       } else {
-        // 清除定时器
-        clearInterval(this.timer);
         this.$message.success(res.msg);
         this.$router.push('/authorization/list');
       }
@@ -113,6 +111,10 @@ export default {
   mounted() {
     this.qrcode();
     this.qqpayReturn();
+    this.$once('hook:beforeDestroy', () => {
+      // 清除定时器
+      clearInterval(this.timer);
+    });
   },
   watch: {
     // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
