@@ -10,7 +10,9 @@ const AuthorizationList = () => import( /* webpackChunkName: "authorizationlist"
 const Alipay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Alipay.vue')
 const Qqpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Qqpay.vue')
 const Wxpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Wxpay.vue')
-
+const AppList = () => import( /* webpackChunkName: "applist_developer" */ '../views/app/List.vue')
+const Developer = () => import( /* webpackChunkName: "applist_developer" */ '../views/app/Developer.vue')
+const Material = () => import( /* webpackChunkName: "account" */ '../views/account/Material.vue')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -32,6 +34,15 @@ const routes = [{
   children: [{
     path: '/authorization/list',
     component: AuthorizationList
+  }, {
+    path: '/app/list',
+    component: AppList
+  }, {
+    path: '/app/developer',
+    component: Developer
+  }, {
+    path: '/account/material',
+    component: Material
   }]
 }, {
   name: 'alipay',

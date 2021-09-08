@@ -1,17 +1,28 @@
 <template>
   <el-container class="container">
+    <!-- 侧边栏 -->
     <el-aside :width="isCollapse ? '64px' : '200px'">
       <div class="title">
         <img :src="logo" alt="Logo" width="24px" />
         <a href="/" v-show="isName">{{ title }}</a>
       </div>
-      <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router default-active="" background-color="#001529" text-color="#fff" active-text-color="#409EFF">
+      <!-- 侧边菜单 -->
+      <el-menu
+        unique-opened
+        :collapse="isCollapse"
+        :collapse-transition="false"
+        router
+        background-color="#001529"
+        text-color="#fff"
+        active-text-color="#409EFF"
+        :default-active="navUrl"
+      >
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-key"></i>
             <span>授权中心</span>
           </template>
-          <el-menu-item-group><el-menu-item index="/authorization/list">我的授权</el-menu-item></el-menu-item-group>
+          <el-menu-item-group><el-menu-item index="/authorization/list" @click="subNavPath('/authorization/list')">我的授权</el-menu-item></el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
@@ -19,8 +30,8 @@
             <span>开发者中心</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">应用发布</el-menu-item>
-            <el-menu-item index="2-2">成为开发者</el-menu-item>
+            <el-menu-item index="/app/list" @click="subNavPath('/app/list')">应用发布</el-menu-item>
+            <el-menu-item index="/app/developer" @click="subNavPath('/app/developer')">成为开发者</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
@@ -41,7 +52,7 @@
             <span>账号管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1">我的资料</el-menu-item>
+            <el-menu-item index="/account/material">我的资料</el-menu-item>
             <el-menu-item index="4-2">API设置</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -93,6 +104,15 @@ export default {
       this.isCollapse = !this.isCollapse;
       this.isName = !this.isName;
     },
+
+    /**
+     * 当前菜单激活的index监听事件
+     * @param {Object} url 子菜单url
+     */
+    subNavPath(url) {
+      this.navUrl = url;
+    },
+
     /**
      * 退出登录
      */
