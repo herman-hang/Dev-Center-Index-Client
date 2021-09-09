@@ -40,10 +40,10 @@
             <span>财务管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="3-1">消费明细</el-menu-item>
-            <el-menu-item index="3-2">我的钱包</el-menu-item>
-            <el-menu-item index="3-3">提现记录</el-menu-item>
-            <el-menu-item index="3-4">我的收入</el-menu-item>
+            <el-menu-item index="/finance/buylog">消费明细</el-menu-item>
+            <el-menu-item index="/finance/mywallet">我的钱包</el-menu-item>
+            <el-menu-item index="/finance/withdrawlist">提现记录</el-menu-item>
+            <el-menu-item index="/finance/myincome">我的收入</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
@@ -53,7 +53,8 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="/account/material">我的资料</el-menu-item>
-            <el-menu-item index="4-2">API设置</el-menu-item>
+            <el-menu-item index="/account/password">修改密码</el-menu-item>
+            <el-menu-item index="/account/api">API设置</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>

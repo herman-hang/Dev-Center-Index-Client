@@ -12,7 +12,17 @@ const Qqpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Qqpay.vu
 const Wxpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Wxpay.vue')
 const AppList = () => import( /* webpackChunkName: "applist_developer" */ '../views/app/List.vue')
 const Developer = () => import( /* webpackChunkName: "applist_developer" */ '../views/app/Developer.vue')
-const Material = () => import( /* webpackChunkName: "account" */ '../views/account/Material.vue')
+const Material = () => import( /* webpackChunkName: "account_password_api" */ '../views/account/Material.vue')
+const PasswordEdit = () => import( /* webpackChunkName: "account_password_api" */ '../views/account/Password.vue')
+const Api = () => import( /* webpackChunkName: "account_password_api" */ '../views/account/Api.vue')
+const BuyLog = () => import( /* webpackChunkName: "buylog_withdrawlist_mayincome_mywallet" */
+  '../views/finance/BuyLog.vue')
+const WithdrawList = () => import( /* webpackChunkName: "buylog_withdrawlist_mayincome_mywallet" */
+  '../views/finance/WithdrawList.vue')
+const MyIncome = () => import( /* webpackChunkName: "buylog_withdrawlist_mayincome_mywallet" */
+  '../views/finance/MyIncome.vue')
+const MyWallet = () => import( /* webpackChunkName: "buylog_withdrawlist_mayincome_mywallet" */
+  '../views/finance/MyWallet.vue')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -43,6 +53,24 @@ const routes = [{
   }, {
     path: '/account/material',
     component: Material
+  }, {
+    path: '/account/password',
+    component: PasswordEdit
+  }, {
+    path: '/account/api',
+    component: Api
+  }, {
+    path: '/finance/buylog',
+    component: BuyLog
+  }, {
+    path: '/finance/withdrawlist',
+    component: WithdrawList
+  }, {
+    path: '/finance/myincome',
+    component: MyIncome
+  }, {
+    path: '/finance/mywallet',
+    component: MyWallet
   }]
 }, {
   name: 'alipay',

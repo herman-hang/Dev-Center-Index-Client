@@ -231,10 +231,10 @@ export default {
     setUserInfo() {
       // 判断用户是否勾选记住密码，如果勾选，向cookie中储存登录信息
       if (this.remember) {
-        setCookie('user', this.loginForm.user);
+        setCookie('user', this.loginForm.user, 60 * 60 * 24 * 7);
         // base64加密密码
         const password = Base64.encode(this.loginForm.password);
-        setCookie('password', password);
+        setCookie('password', password, 60 * 60 * 24 * 7);
       } else {
         // 没有勾选记住密码则设置为空
         setCookie('user', '');

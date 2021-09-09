@@ -67,7 +67,7 @@
           <el-form-item label="验证码" prop="code">
             <div class="captcha-code">
               <el-input placeholder="请输入验证码" v-model="bindMobileForm.code" prefix-icon="el-icon-key" ref="codeInput" class="code"></el-input>
-              <el-button class="send-code" plain @click="sendCode">
+              <el-button class="send-code" plain @click="sendCode('1')">
                 <span v-show="sendCodeBtn">发送验证码</span>
                 <span v-show="!sendCodeBtn">{{ second }} s</span>
               </el-button>
@@ -79,12 +79,32 @@
           <el-button type="primary" @click="submitMobile">确 定</el-button>
         </span>
       </el-dialog>
+
+      <!-- 绑定/解除邮箱 -->
+      <el-dialog :title="bindEmailForm.title" :visible.sync="bindEmailDialogVisible" width="30%" @close="emailFormClose">
+        <el-form :model="bindEmailForm" :rules="bindEmailFormRules" ref="emailFormRef" label-width="100px">
+          <el-form-item label="邮箱" prop="email"><el-input placeholder="请输入邮箱" v-model="bindEmailForm.email"></el-input></el-form-item>
+          <el-form-item label="验证码" prop="code">
+            <div class="captcha-code">
+              <el-input placeholder="请输入验证码" v-model="bindEmailForm.code" prefix-icon="el-icon-key" ref="codeInput" class="code"></el-input>
+              <el-button class="send-code" plain @click="sendCode('2')">
+                <span v-show="sendCodeBtn">发送验证码</span>
+                <span v-show="!sendCodeBtn">{{ second }} s</span>
+              </el-button>
+            </div>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="bindEmailDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitEmail">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
-import { validatePhone } from '../../utils/validate.js';
+import { validatePhone, validEmail } from '../../utils/validate.js';
 export default {
   data() {
     return {
@@ -104,6 +124,8 @@ export default {
       },
       // 初始化绑定/解除手机对话框
       bindMobileDialogVisible: false,
+      // 初始化绑定/解除邮箱对话框
+      bindEmailDialogVisible: false,
       // 绑定/解除表单数据绑定
       bindMobileForm: {
         title: '',
@@ -111,9 +133,21 @@ export default {
         code: '',
         type: ''
       },
-      // 绑定/解除表单验证规则
+      // 绑定/解除邮箱表单数据绑定
+      bindEmailForm: {
+        title: '',
+        mobile: '',
+        code: '',
+        type: ''
+      },
+      // 绑定/解除手机表单验证规则
       bindMobileFormRules: {
         mobile: [{ required: true, message: '请输入手机号码', trigger: 'blur' }, { validator: validatePhone, trigger: 'blur' }],
+        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+      },
+      // 绑定/解除邮箱表单验证规则
+      bindEmailFormRules: {
+        email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }, { validator: validEmail, trigger: 'blur' }],
         code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
       },
       // 发送验证码按钮初始化
@@ -166,15 +200,41 @@ export default {
     },
 
     /**
+     * 绑定/解除邮箱对话框
+     * @param {Object} type 1为立即绑定 2为解除绑定
+     */
+    email(type) {
+      if (type === '1') {
+        this.bindEmailForm.title = '绑定邮箱';
+        this.bindEmailForm.type = '1';
+      } else if (type === '2') {
+        this.bindEmailForm.title = '解除邮箱';
+        this.bindEmailForm.type = '0';
+      }
+      this.bindEmailDialogVisible = true;
+    },
+
+    /**
      * 发送验证码
      */
-    async sendCode() {
-      if (this.bindMobileForm.mobile === '') {
-        return this.$message.error('手机号码不能为空！');
+    async sendCode(type) {
+      if (type === '1') {
+        // 发送手机验证码
+        if (this.bindMobileForm.mobile === '') {
+          return this.$message.error('手机号码不能为空！');
+        }
+        const { data: res } = await this.$http.post('Account/bindMobileSendCode', this.bindMobileForm);
+        if (res.code !== 200) return this.$message.error(res.msg);
+        this.$message.success(res.msg);
+      } else if (type === '2') {
+        // 发送邮箱验证码
+        if (this.bindEmailForm.email === '') {
+          return this.$message.error('邮箱不能为空！');
+        }
+        const { data: res } = await this.$http.post('Account/bindEmailSendCode', this.bindEmailForm);
+        if (res.code !== 200) return this.$message.error(res.msg);
+        this.$message.success(res.msg);
       }
-      const { data: res } = await this.$http.post('Account/bindMobileSendCode', this.bindMobileForm);
-      if (res.code !== 200) return this.$message.error(res.msg);
-      this.$message.success(res.msg);
       // 倒计时
       if (!this.timer) {
         this.sendCodeBtn = false;
@@ -194,13 +254,12 @@ export default {
     },
 
     /**
-     * 提交请求
+     * 手机提交请求
      */
     submitMobile() {
       this.$refs.mobileFormRef.validate(async valid => {
         if (!valid) return;
         const { data: res } = await this.$http.post('Account/bindMobile', this.bindMobileForm);
-        console.log(res);
         if (res.code !== 200) return this.$message.error(res.msg);
         this.$message.success(res.msg);
         this.bindMobileDialogVisible = false;
@@ -209,11 +268,33 @@ export default {
     },
 
     /**
-     * 绑定/解除对话框关闭
+     * 邮箱提交请求
+     */
+    submitEmail() {
+      this.$refs.emailFormRef.validate(async valid => {
+        if (!valid) return;
+        const { data: res } = await this.$http.post('Account/bindEmail', this.bindEmailForm);
+        if (res.code !== 200) return this.$message.error(res.msg);
+        this.$message.success(res.msg);
+        this.bindEmailDialogVisible = false;
+        this.material();
+      });
+    },
+
+    /**
+     * 绑定/解除手机对话框关闭
      */
     mobileFormClose() {
       // 重置所有表单项
       this.$refs.mobileFormRef.resetFields();
+    },
+
+    /**
+     * 绑定/解除邮箱对话框关闭
+     */
+    emailFormClose() {
+      // 重置所有表单项
+      this.$refs.emailFormRef.resetFields();
     },
 
     /**
