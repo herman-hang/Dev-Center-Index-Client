@@ -93,7 +93,7 @@ const routes = [{
 }]
 
 const router = new VueRouter({
-  mode: 'history', //去掉url中的'#'号
+  mode: 'hash',
   routes
 })
 
