@@ -65,8 +65,8 @@ export default {
       remember: false,
       // 表单绑定数据对象
       loginForm: {
-        user: 'xiaohang',
-        password: '123456',
+        user: '',
+        password: '',
         code: ''
       },
       // 第三方登录绑定
