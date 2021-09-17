@@ -7,9 +7,9 @@ const Password = () => import( /* webpackChunkName: "login_register_password" */
 const Error404 = () => import( /* webpackChunkName: "404" */ '../views/404.vue')
 const Home = () => import( /* webpackChunkName: "home_welcome" */ '../views/Home.vue')
 const AuthorizationList = () => import( /* webpackChunkName: "authorizationlist" */ '../views/authorization/List.vue')
-const Alipay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Alipay.vue')
-const Qqpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Qqpay.vue')
-const Wxpay = () => import( /* webpackChunkName: "pay" */ '../views/pay/Wxpay.vue')
+const Alipay = () => import( /* webpackChunkName: "alipay" */ '../views/pay/Alipay.vue')
+const Qqpay = () => import( /* webpackChunkName: "qqpay" */ '../views/pay/Qqpay.vue')
+const Wxpay = () => import( /* webpackChunkName: "wxpay" */ '../views/pay/Wxpay.vue')
 const AppList = () => import( /* webpackChunkName: "applist_developer" */ '../views/app/List.vue')
 const Developer = () => import( /* webpackChunkName: "applist_developer" */ '../views/app/Developer.vue')
 const Material = () => import( /* webpackChunkName: "account_password_api" */ '../views/account/Material.vue')
@@ -24,7 +24,11 @@ const MyIncome = () => import( /* webpackChunkName: "buylog_withdrawlist_mayinco
 const MyWallet = () => import( /* webpackChunkName: "buylog_withdrawlist_mayincome_mywallet" */
   '../views/finance/MyWallet.vue')
 Vue.use(VueRouter)
-
+// 防止点击重复的路由报错
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 const routes = [{
   path: '/',
   redirect: '/login'
