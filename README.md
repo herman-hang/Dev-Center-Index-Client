@@ -22,10 +22,3 @@ npm run serve
 npm run build
 ```
 编译完项目后即可将dist文件夹进行部署上线。
-
-## 演示站
-开发者中心前台演示站：http://develop.yundaohang.net/index
-
-## 个人公众号
-更多开源组件、项目请走传送门
-![微信公众号](https://www.yundaohang.net/tuoguan/wx.png "个人公众号")
